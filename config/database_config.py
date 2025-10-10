@@ -23,10 +23,12 @@ def get_database_config():
             password = os.getenv("MYSQL_PASSWORD"),
             database = os.getenv("MYSQL_DATABASE")
         ),
+        "mongodb" : "",
+        "redis" : "",
+        "postgresql" : "",
+        "elasticsearch" : "",
     }
 
     return config
 
 
-config =  get_database_config()
-print(config)
