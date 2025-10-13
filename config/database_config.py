@@ -11,6 +11,11 @@ class MySQLConfig():
     database : str
     port : int
 
+@dataclass
+class MongoDBConfig():
+    uri : str
+    database : str
+
 def get_database_config():
     # load config first
     load_dotenv()
@@ -23,10 +28,11 @@ def get_database_config():
             password = os.getenv("MYSQL_PASSWORD"),
             database = os.getenv("MYSQL_DATABASE")
         ),
-        "mongodb" : "",
-        "redis" : "",
-        "postgresql" : "",
-        "elasticsearch" : "",
+        "mongodb" : MongoDBConfig(
+            uri = os.getenv("MONGO_URI"),
+            database = os.getenv("MONGO_DATABASE")
+        ),
+
     }
 
     return config
