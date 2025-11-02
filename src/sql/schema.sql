@@ -6,11 +6,10 @@ CREATE TABLE USERS (
     url VARCHAR(512),
     type VARCHAR(50), -- Ví dụ: 'User'
     site_admin BOOLEAN,
-    -- Các trường khác từ API có thể thêm nếu cần
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
----
+
 
 -- 2. Bảng REPOS: Lưu trữ thông tin về các kho lưu trữ (Repo gốc và Forkee)
 CREATE TABLE REPOS (
@@ -34,7 +33,7 @@ CREATE TABLE REPOS (
     pushed_at DATETIME
 );
 
----
+
 
 -- 3. Bảng ORGS: Lưu trữ thông tin về các tổ chức (Org)
 CREATE TABLE ORGS (
@@ -45,7 +44,7 @@ CREATE TABLE ORGS (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
----
+
 
 -- 4. Bảng EVENTS: Lưu trữ thông tin cơ bản và chi tiết về sự kiện
 CREATE TABLE EVENTS (
@@ -66,7 +65,7 @@ CREATE TABLE EVENTS (
     FOREIGN KEY (forkee_repo_id) REFERENCES REPOS(repo_id) ON DELETE CASCADE
 );
 
----
+
 
 -- 5. Bảng REPO_OWNERSHIP: Lưu trữ mối quan hệ sở hữu giữa Repo và User/Org
 -- Bảng này giúp xử lý trường hợp Owner của Forkee (user_id) và Repo gốc (org_id)
@@ -79,8 +78,5 @@ CREATE TABLE REPO_OWNERSHIP (
 
     FOREIGN KEY (repo_id) REFERENCES REPOS(repo_id) ON DELETE CASCADE,
     FOREIGN KEY (owner_user_id) REFERENCES USERS(user_id) ON DELETE SET NULL,
-    FOREIGN KEY (owner_org_id) REFERENCES ORGS(org_id) ON DELETE SET NULL,
-
-    -- Đảm bảo chỉ có một trong hai owner_id được điền
-    CONSTRAINT chk_one_owner_type CHECK (owner_user_id IS NOT NULL OR owner_org_id IS NOT NULL)
+    FOREIGN KEY (owner_org_id) REFERENCES ORGS(org_id) ON DELETE SET NULL
 );
